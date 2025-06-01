@@ -103,10 +103,23 @@ class SingleLinkedList:
             current.next = new_node
         self.size += 1
 
+    def to_list(self) -> list[Any]:
+        """
+        Converts the linked list to a Python list.
+
+        Returns:
+            list[Any]: A list containing all the values in the linked list.
+        """
+        result = []
+        current = self.head
+        while current:
+            result.append(current.value)
+            current = current.next
+        return result
+    
     def __str__(self) -> str:
         """
-        Returns a string representation of the linked list.
-        This method allows for printing the linked list in a readable format.
+        Returns a string representation of the linked list in the format [1 -> 2 -> 3].
 
         Returns:
             str: A string representation of the linked list.
@@ -116,7 +129,7 @@ class SingleLinkedList:
         while current:
             values.append(str(current.value))
             current = current.next
-        return " -> ".join(values) if values else "Empty List"
+        return f"[{' -> '.join(values)}]" if values else "[Empty List]"
     
     def __repr__(self) -> str:
-        return f"SingleLinkedList()"
+        return f"{self.to_list()}"
