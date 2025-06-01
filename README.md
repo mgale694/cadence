@@ -16,6 +16,7 @@ A Python package providing efficient and robust implementations of fundamental a
 
 - **Linked Lists**:
   - Singly Linked List
+  - Doubly Linked List
 
 <!-- - **Linked Lists**:
   - Singly Linked List
