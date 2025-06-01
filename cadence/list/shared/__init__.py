@@ -1,3 +1,3 @@
-from .node import Node
+from .node import SingleNode, DoubleNode
 
-__all__ = ["Node"]
+__all__ = ["SingleNode", "DoubleNode"]

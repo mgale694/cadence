@@ -1,15 +1,15 @@
-from ..shared import Node
-from typing import Any
+from ..shared import SingleNode
+from typing import Any, Union
 
 class SingleLinkedList:
 
-    def __init__(self, default: list[Any] = None) -> None:
-        self.head: Node = None
+    def __init__(self, initlist: list[Any] = None) -> None:
+        self.head: SingleNode = None
         self.size = 0
-        if default:
-            for value in default:
+        if initlist:
+            for value in initlist:
                 self.append(value)
-
+    
     def __len__(self) -> int:
         """
         Returns the number of elements in the linked list. Defining the 
@@ -35,7 +35,7 @@ class SingleLinkedList:
             or equal to the size of the linked list).
 
         Returns:
-            Any: Value of Node at the specified index.
+            Any: Value of SingleNode at the specified index.
         """
         if index < 0 or index >= self.size:
             raise IndexError("Index out of bounds.")
@@ -86,6 +86,56 @@ class SingleLinkedList:
             current = current.next
         return False
 
+    def __iter__(self):
+        """
+        Returns an iterator for the linked list, allowing for iteration
+        over the values in the linked list.
+
+        Yields:
+            Any: The value of each node in the linked list.
+        """
+        current = self.head
+        while current:
+            yield current.value
+            current = current.next
+        
+    def __next__(self):
+        """
+        Returns the next value in the linked list during iteration.
+        This method is used internally by the iterator.
+
+        Raises:
+            StopIteration: When there are no more elements to iterate over.
+        """
+        if not hasattr(self, '_iterator'):
+            self._iterator = self.head
+        
+        if self._iterator is None:
+            raise StopIteration
+        
+        value = self._iterator.value
+        self._iterator = self._iterator.next
+        return value
+    
+    # Operators
+    def __add__(self, other: Union['SingleLinkedList', list[Any]]) -> 'SingleLinkedList':
+        """
+        Concatenates two linked lists or a linked list with a Python list.
+
+        Args:
+            other (SingleLinkedList | list[Any]): The linked list or Python list 
+            to concatenate.
+
+        Returns:
+            SingleLinkedList: A new linked list containing the elements of both 
+            lists.
+        """
+        new_list = SingleLinkedList(self.to_list())
+        for value in other:
+            new_list.append(value)
+        return new_list
+
+    # Interaction methods
     def append(self, value: Any) -> None:
         """
         Appends a new value to the end of the linked list.
@@ -93,7 +143,7 @@ class SingleLinkedList:
         Args:
             value (Any): The value to append to the linked list.
         """
-        new_node = Node(value)
+        new_node = SingleNode(value)
         if not self.head:
             self.head = new_node
         else:
@@ -103,6 +153,7 @@ class SingleLinkedList:
             current.next = new_node
         self.size += 1
 
+    # Output methods
     def to_list(self) -> list[Any]:
         """
         Converts the linked list to a Python list.
