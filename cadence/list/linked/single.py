@@ -132,4 +132,11 @@ class SingleLinkedList:
         return f"[{' -> '.join(values)}]" if values else "[Empty List]"
     
     def __repr__(self) -> str:
+        """
+        Returns a string representation of the linked list for debugging purposes.
+        This representation is similar to the output of `to_list()`.
+
+        Returns:
+            str: A string representation of the linked list.
+        """
         return f"{self.to_list()}"
