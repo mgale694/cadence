@@ -54,6 +54,79 @@ class DoubleLinkedList:
                 current = current.prev
         return current.value
     
+    def __setitem__(self, index: int, value: Any) -> None:
+        """
+        Sets the value at the specified index in the double linked list.
+        This method allows for setting values in the double linked list using
+        the syntax `double_linked_list[index] = value`.
+
+        Args:
+            index (int): The index of the element to set.
+            value (Any): The value to set at the specified index.
+
+        Raises:
+            IndexError: If the index is out of bounds (negative or greater than
+            or equal to the size of the double linked list).
+        """
+        if index < 0 or index >= self.size:
+            raise IndexError("Index out of bounds.")
+
+        # Optimize traversal: start from head or tail depending on index
+        if index < self.size // 2:
+            current = self.head
+            for _ in range(index):
+                current = current.next
+        else:
+            current = self.tail
+            for _ in range(self.size - 1, index, -1):
+                current = current.prev
+        current.value = value
+    
+    def __contains__(self, value: Any) -> bool:
+        """
+        Checks if a value is present in the double linked list.
+
+        Args:
+            value (Any): The value to check for in the double linked list.
+
+        Returns:
+            bool: True if the value is found, False otherwise.
+        """
+        current = self.head
+        while current:
+            if current.value == value:
+                return True
+            current = current.next
+        return False
+    
+    def __iter__(self):
+        """
+        Returns an iterator for the double linked list, allowing for iteration
+        over its elements.
+
+        Yields:
+            Any: The next value in the double linked list.
+        """
+        current = self.head
+        while current:
+            yield current.value
+            current = current.next
+
+    def __next__(self):
+        """
+        Returns the next value in the double linked list during iteration.
+
+        Raises:
+            StopIteration: When there are no more elements to iterate over.
+        """
+        if not hasattr(self, '_iterator'):
+            self._iterator = self.head
+        if self._iterator is None:
+            raise StopIteration
+        value = self._iterator.value
+        self._iterator = self._iterator.next
+        return value
+
     # Interaction methods
     def append(self, value: Any) -> None:
         """

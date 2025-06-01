@@ -1,7 +1,8 @@
 from ..shared import SingleNode
 from typing import Any, Union
+from collections.abc import MutableSequence
 
-class SingleLinkedList:
+class SingleLinkedList(MutableSequence):
 
     def __init__(self, initlist: list[Any] = None) -> None:
         self.head: SingleNode = None
